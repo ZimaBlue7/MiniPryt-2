@@ -435,6 +435,18 @@ class SmartHorsesGUI:
         self.label_puntos_blanco.config(text=str(self.game_logic.puntos_blanco))
         self.label_puntos_negro.config(text=str(self.game_logic.puntos_negro))
 
+        # Validación automática: si es turno del negro pero no tiene movimientos,
+        # cambiar automáticamente al turno de la IA
+        if (
+            not self.game_logic.turno_blanco
+            and self.game_logic.negro_sin_movimientos
+            and not self.game_logic.juego_terminado
+            and not self.esperando_ia
+        ):
+            # Cambiar turno al blanco (IA) automáticamente
+            self.game_logic.turno_blanco = True
+            self.root.after(1000, self.turno_ia)
+
     def click_tablero(self, event):
         """Maneja los clicks en el tablero"""
         if self.esperando_ia or self.game_logic.juego_terminado:
@@ -511,12 +523,23 @@ class SmartHorsesGUI:
             self.root.after(500, self.mostrar_fin_juego)
             return
 
-        # Si el blanco sigue sin movimientos, continuar con la IA
+        # Continuar automáticamente si el jugador contrario no tiene movimientos
+        # Caso 1: Si es turno del negro pero no tiene movimientos, la IA continúa
         if (
-            self.game_logic.blanco_sin_movimientos
+            not self.game_logic.turno_blanco
+            and self.game_logic.negro_sin_movimientos
+        ):
+            self.game_logic.turno_blanco = True
+            self.root.after(1000, self.turno_ia)
+        # Caso 2: Si es turno del blanco pero no tiene movimientos, la IA intenta de nuevo
+        elif (
+            self.game_logic.turno_blanco
+            and self.game_logic.blanco_sin_movimientos
             and not self.game_logic.negro_sin_movimientos
         ):
-            self.root.after(1000, self.turno_ia)
+            self.game_logic.turno_blanco = False
+            # El turno pasa al negro, pero si tampoco tiene movimientos, 
+            # la validación automática en dibujar_tablero() lo manejará
 
     def mostrar_fin_juego(self):
         """Muestra el mensaje de fin del juego"""

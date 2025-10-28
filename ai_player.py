@@ -15,7 +15,6 @@ class AIPlayer:
         """
         Función heurística para evaluar el estado del juego.
         La IA juega con el blanco, así que evaluamos desde su perspectiva.
-        Considera: diferencia de puntos y movilidad
         """
         # Diferencia de puntos (blanco - negro, porque la IA es el blanco)
         diferencia_puntos = game_logic.puntos_blanco - game_logic.puntos_negro
