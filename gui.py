@@ -525,10 +525,7 @@ class SmartHorsesGUI:
 
         # Continuar automáticamente si el jugador contrario no tiene movimientos
         # Caso 1: Si es turno del negro pero no tiene movimientos, la IA continúa
-        if (
-            not self.game_logic.turno_blanco
-            and self.game_logic.negro_sin_movimientos
-        ):
+        if not self.game_logic.turno_blanco and self.game_logic.negro_sin_movimientos:
             self.game_logic.turno_blanco = True
             self.root.after(1000, self.turno_ia)
         # Caso 2: Si es turno del blanco pero no tiene movimientos, la IA intenta de nuevo
@@ -538,7 +535,7 @@ class SmartHorsesGUI:
             and not self.game_logic.negro_sin_movimientos
         ):
             self.game_logic.turno_blanco = False
-            # El turno pasa al negro, pero si tampoco tiene movimientos, 
+            # El turno pasa al negro, pero si tampoco tiene movimientos,
             # la validación automática en dibujar_tablero() lo manejará
 
     def mostrar_fin_juego(self):
