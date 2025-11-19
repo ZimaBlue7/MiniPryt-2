@@ -77,6 +77,10 @@ class GameLogic:
             if nueva_pos not in movimientos_validos:
                 return False
 
+            # Si el blanco (IA) no puede moverse, restar 4 puntos por cada movimiento del negro
+            if self.blanco_sin_movimientos:
+                self.puntos_blanco -= 4
+
             # Bloquear la casilla anterior
             self.casillas_bloqueadas.add(self.pos_negro)
 
