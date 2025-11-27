@@ -1,9 +1,7 @@
 """
 Lógica del juego Smart Horses
 """
-
 from config import MOVIMIENTOS_CABALLO
-
 
 class GameLogic:
     """Clase que maneja toda la lógica del juego"""
@@ -21,8 +19,7 @@ class GameLogic:
         )  # Conjunto de casillas que ya no se pueden usar
         self.blanco_sin_movimientos = False  # Si el blanco no puede moverse
         self.negro_sin_movimientos = False  # Si el negro no puede moverse
-        # NO bloquear posiciones iniciales - solo se bloquean al moverse
-        # (según las reglas, las casillas se bloquean cuando el caballo se mueve)
+
 
     def obtener_movimientos_validos(self, pos):
         """Retorna lista de movimientos válidos desde una posición"""
@@ -77,7 +74,7 @@ class GameLogic:
             if nueva_pos not in movimientos_validos:
                 return False
 
-            # Si el blanco (IA) no puede moverse, restar 4 puntos por cada movimiento del negro
+            # Si la ia no puede moverse, restar 4 puntos por cada movimiento del negro
             if self.blanco_sin_movimientos:
                 self.puntos_blanco -= 4
 
