@@ -1,9 +1,4 @@
-"""
-Inteligencia Artificial para Smart Horses usando Minimax
-"""
-
 import random
-
 
 class AIPlayer:
     """Jugador de IA que usa el algoritmo Minimax con poda Alpha-Beta"""
@@ -14,9 +9,9 @@ class AIPlayer:
     def calcular_heuristica(self, game_logic):
         """
         Función heurística para evaluar el estado del juego.
-        La IA juega con el blanco, así que evaluamos desde su perspectiva.
+        La IA juega con el blanco.
         """
-        # Diferencia de puntos (blanco - negro, porque la IA es el blanco)
+        # Diferencia de puntos 
         diferencia_puntos = game_logic.puntos_blanco - game_logic.puntos_negro
 
         # Movilidad
@@ -44,11 +39,11 @@ class AIPlayer:
         Algoritmo Minimax con poda Alpha-Beta
         La IA juega con el blanco (MAXIMIZA su puntuación)
         El humano juega con el negro (MINIMIZA la puntuación de la IA)
-        Evaluación: puntos_blanco - puntos_negro (positivo = bueno para IA)
+        puntos_blanco - puntos_negro (positivo = bueno para IA)
         """
 
         if profundidad == 0:
-            # Evaluar desde la perspectiva del blanco (IA)
+            # Evaluar desde la perspectiva de la IA
             diferencia = puntos_blanco - puntos_negro
             # Agregar factor de movilidad
             mov_blanco = self._contar_movimientos(
@@ -70,7 +65,7 @@ class AIPlayer:
             return diferencia + (mov_blanco - mov_negro) * 0.5, None
 
         if es_turno_blanco:
-            # Turno de la IA (blanco) - MAXIMIZA la evaluación
+            # Turno de la IA - MAXIMIZA la evaluación
             movimientos = self._obtener_movimientos(
                 pos_blanco,
                 tablero,
@@ -93,7 +88,6 @@ class AIPlayer:
                 tablero_copia[mov[0]][mov[1]] = 0
                 nuevos_puntos_blanco = puntos_blanco + puntos_ganados
 
-                # Copiar casillas bloqueadas y agregar las nuevas
                 nuevas_bloqueadas = casillas_bloqueadas.copy()
                 nuevas_bloqueadas.add(pos_blanco)
                 nuevas_bloqueadas.add(mov)
@@ -123,7 +117,7 @@ class AIPlayer:
             return max_eval, mejor_movimiento
 
         else:
-            # Turno del jugador humano (negro) - MINIMIZA la evaluación de la IA
+            # Turno del jugador negro - MINIMIZA la evaluación de la IA
             movimientos = self._obtener_movimientos(
                 pos_negro,
                 tablero,
@@ -134,7 +128,7 @@ class AIPlayer:
             )
 
             if not movimientos:
-                # Si el negro no puede moverse, pierde 4 puntos (bueno para IA)
+                # Si el negro no puede moverse, pierde 4 puntos 
                 return puntos_blanco - (puntos_negro - 4) + 100, None
 
             min_eval = float("inf")
@@ -197,6 +191,7 @@ class AIPlayer:
 
             # Verificar que esté en el tablero, que la casilla no esté bloqueada
             # y que no esté ocupada por el otro caballo
+            
             if (
                 0 <= nueva_fila < 8
                 and 0 <= nueva_col < 8
@@ -230,10 +225,9 @@ class AIPlayer:
         )
 
     def obtener_mejor_movimiento(self, game_logic):
-        """Calcula y retorna el mejor movimiento para la IA (blanco)"""
+        """Calcula y retorna el mejor movimiento para la IA """
         from config import MOVIMIENTOS_CABALLO
 
-        # La IA juega con el blanco, así que es_turno_blanco=True
         _, mejor_movimiento = self.minimax(
             game_logic.tablero,
             game_logic.pos_blanco,
@@ -241,7 +235,7 @@ class AIPlayer:
             game_logic.puntos_blanco,
             game_logic.puntos_negro,
             self.profundidad,
-            True,  # True porque la IA es el blanco y queremos su mejor movimiento
+            True,  
             float("-inf"),
             float("inf"),
             MOVIMIENTOS_CABALLO,
@@ -249,7 +243,6 @@ class AIPlayer:
         )
 
         if mejor_movimiento is None:
-            # Fallback: movimiento aleatorio si no hay mejor movimiento
             movimientos = game_logic.obtener_movimientos_validos(game_logic.pos_blanco)
             if movimientos:
                 mejor_movimiento = random.choice(movimientos)

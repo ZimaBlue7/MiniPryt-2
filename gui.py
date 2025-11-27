@@ -1,5 +1,5 @@
 """
-Interfaz gráfica para Smart Horses usando Tkinter
+Interfaz gráfica 
 """
 
 import tkinter as tk
@@ -10,11 +10,10 @@ from ai_player import AIPlayer
 
 
 class SmartHorsesGUI:
-    """Interfaz gráfica del juego Smart Horses"""
-
+   
     def __init__(self, root):
         self.root = root
-        self.root.title("🐴 Smart Horses")
+        self.root.title("Smart Horses")
         self.root.configure(bg=COLOR_FONDO)
         self.root.resizable(False, False)
 
@@ -33,9 +32,9 @@ class SmartHorsesGUI:
             widget.destroy()
 
         # Resetear tamaño de ventana
-        self.root.geometry("")  # Resetear geometría
+        self.root.geometry("")  
 
-        # Frame principal con scrollbar por si acaso
+
         main_container = tk.Frame(self.root, bg=COLOR_FONDO)
         main_container.pack(expand=True, fill="both")
 
@@ -65,7 +64,7 @@ class SmartHorsesGUI:
         # Reglas
         reglas = tk.Label(
             frame,
-            text="📖 REGLAS:\n\n"
+            text="REGLAS:\n\n"
             "• La IA juega con el caballo blanco (♘) y empieza\n"
             "• Tú juegas con el caballo negro (♞)\n"
             "• Posiciones iniciales aleatorias (no coinciden)\n"
@@ -114,7 +113,7 @@ class SmartHorsesGUI:
         # Botón iniciar
         btn_iniciar = tk.Button(
             frame,
-            text="🎮 INICIAR JUEGO",
+            text=" INICIAR JUEGO",
             font=("Arial", 16, "bold"),
             bg="#27AE60",
             fg="white",
@@ -144,8 +143,7 @@ class SmartHorsesGUI:
         nivel = self.nivel_var.get()
         profundidad = NIVELES[nivel]
 
-        # Generar tablero aleatorio con posiciones aleatorias
-        # Blanco = IA (empieza primero), Negro = Jugador humano
+    
         tablero, pos_blanco, pos_negro = generar_tablero_aleatorio()
 
         self.game_logic = GameLogic(tablero, pos_blanco, pos_negro)
@@ -153,8 +151,6 @@ class SmartHorsesGUI:
 
         self.crear_interfaz_juego()
 
-        # La IA (blanco) siempre empieza, así que hace el primer movimiento
-        # Importante: llamar después de crear la interfaz
         self.root.after(1000, self.primer_movimiento_ia)
 
     def primer_movimiento_ia(self):
@@ -163,7 +159,6 @@ class SmartHorsesGUI:
             self.turno_ia()
 
     def crear_interfaz_juego(self):
-        """Crea la interfaz principal del juego"""
         # Limpiar ventana
         for widget in self.root.winfo_children():
             widget.destroy()
@@ -297,12 +292,12 @@ class SmartHorsesGUI:
             "   movimientos válidos\n\n"
             "4. Haz clic en una\n"
             "   casilla verde\n\n"
-            " Las casillas rojas\n"
-            "   con X ya no se\n"
-            "   pueden usar\n\n"
-            " Si no puedes\n"
-            "   moverte, pierdes\n"
-            "   4 puntos por turno",
+            "Las casillas rojas\n"
+            "con X ya no se\n"
+            "pueden usar\n\n"
+            "Si no puedes\n"
+            "moverte, pierdes\n"
+            "4 puntos por turno",
             font=("Arial", 9),
             bg=COLOR_PANEL,
             fg=COLOR_TEXTO,
@@ -316,7 +311,7 @@ class SmartHorsesGUI:
 
         tk.Button(
             btn_frame,
-            text="🔄 Nuevo Juego",
+            text="Nuevo Juego",
             font=("Arial", 10),
             bg="#3498DB",
             fg="white",
@@ -420,14 +415,14 @@ class SmartHorsesGUI:
         if self.game_logic.turno_blanco:
             if self.game_logic.blanco_sin_movimientos:
                 self.label_turno.config(
-                    text="⚪ Blanco/IA (Sin movimientos)", fg="orange"
+                    text="⚪ Blanco/IA \n (Sin movimientos)", fg="orange"
                 )
             else:
                 self.label_turno.config(text="⚪ Blanco (IA)", fg="white")
         else:
             if self.game_logic.negro_sin_movimientos:
                 self.label_turno.config(
-                    text="⚫ Negro/Tú (Sin movimientos)", fg="orange"
+                    text="⚫ Negro/Tú \n (Sin movimientos)", fg="orange"
                 )
             else:
                 self.label_turno.config(text="⚫ Negro (Tu turno)", fg="lightgreen")
@@ -547,13 +542,13 @@ class SmartHorsesGUI:
         mensaje += f"⚫ Negro (Tú): {self.game_logic.puntos_negro} puntos\n\n"
 
         if ganador == "Negro":
-            mensaje += "🎉 ¡GANASTE! ¡Felicidades! 🎉"
+            mensaje += "¡GANASTE! ¡Felicidades!"
             titulo = "¡Victoria!"
         elif ganador == "Blanco":
-            mensaje += "😔 La IA ganó. ¡Intenta de nuevo!"
+            mensaje += "La IA ganó. ¡Intenta de nuevo!"
             titulo = "Derrota"
         else:
-            mensaje += "🤝 ¡Es un empate!"
+            mensaje += "¡Es un empate!"
             titulo = "Empate"
 
         respuesta = messagebox.askyesno(
